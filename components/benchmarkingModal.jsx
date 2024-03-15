@@ -43,7 +43,7 @@ export default function BenchmarkingModal({ isOpen, onOpenChange, onClose, id })
 
   return (
     <Modal style={{ maxHeight: '99vh', overflowY: 'auto' }} size={"2xl"} isOpen={isOpen} onOpenChange={onOpenChange}>
-      <ModalContent>
+      <ModalContent className="text-black">
         {(closeModal) => (
           <>
             <ModalBody>
