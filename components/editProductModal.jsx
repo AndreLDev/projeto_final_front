@@ -21,7 +21,7 @@ export default function EditProductModal({ isOpen, onOpenChange, onClose, id }) 
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch("https://localhost:7251/api/Produto/" + id);
+      const response = await fetch("https://localhost:8004/api/Produto/" + id);
       if (!response.ok) {
         throw new Error("Failed to fetch products");
       }
@@ -59,7 +59,7 @@ export default function EditProductModal({ isOpen, onOpenChange, onClose, id }) 
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://localhost:7251/api/Produto", {
+      const response = await fetch("https://localhost:8004/api/Produto", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
