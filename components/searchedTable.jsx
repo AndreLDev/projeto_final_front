@@ -28,6 +28,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { capitalize } from "../utils";
 import AddProductModal from "./addProductModal";
 import EditProductModal from "./editProductModal";
+import BenchmarkingModal from "./benchmarkingModal";
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "desciption", "price", "stock", "minStock", "actions"];
 
@@ -40,6 +41,7 @@ export default function SearchedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isBenchModalOpen, setIsBenchModalOpen] = useState(false);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
@@ -100,6 +102,11 @@ export default function SearchedTable() {
   const handleEditProduct = (id) => {
     setSelectedProduct(id);
     setIsEditModalOpen(true);
+  };
+
+  const handleBenchProduct = (id) => {
+    setSelectedProduct(id);
+    setIsBenchModalOpen(true);
   };
 
   const headerColumns = React.useMemo(() => {
@@ -168,8 +175,8 @@ export default function SearchedTable() {
       case "actions":
         return (
           <div className="relative flex justify-start items-center gap-2">
-            <Button isIconOnly className="bg-cyan-600" aria-label="Like">
-              <HiOutlineLightBulb size={"2em"} className="text-white" />
+            <Button isIconOnly className="bg-cyan-600" aria-label="Like" onClick={() => handleBenchProduct(product["id"])}>
+              <HiOutlineLightBulb size={"2em"} className="text-white"/>
             </Button>
             <Button isIconOnly className="bg-amber-600" aria-label="Like">
               <MdOutlineMailOutline size={"2em"} className="text-white"/>
@@ -340,6 +347,14 @@ export default function SearchedTable() {
       isOpen={isEditModalOpen} 
       onOpenChange={setIsEditModalOpen}
       onClose={() => setIsEditModalOpen(false)}
+      id={selectedProduct}
+      />
+
+
+      <BenchmarkingModal 
+      isOpen={isBenchModalOpen} 
+      onOpenChange={setIsBenchModalOpen}
+      onClose={() => setIsBenchModalOpen(false)}
       id={selectedProduct}
       />
     </>
