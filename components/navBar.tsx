@@ -23,7 +23,7 @@ export default function NavBar() {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit px-2">Almoxaridado</p>
+          <p className="font-bold text-inherit px-2">Almoxarifado</p>
         </NavbarBrand>
       </NavbarContent>
 
