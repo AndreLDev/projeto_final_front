@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import NavBar from "@/components/navBar";
+import NavBar from "../../components/navBar";
 import {
   Table,
   TableRow,
@@ -38,7 +38,7 @@ const Requisicao: React.FC = () => {
   });
   const [produtosTabela, setProdutosTabela] = useState<Product[]>([]);
 
-  const handleInput = async (e) => {
+  const handleInput = async (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormvalue({ ...formvalue, [name]: value });
 
@@ -48,7 +48,7 @@ const Requisicao: React.FC = () => {
       }
 
       const encodedId = encodeURIComponent(value.trim());
-      const response = await fetch(`https://localhost:8004/api/Produto/${encodedId}`);
+      const response = await fetch(`http://localhost:8004/api/Produto/${encodedId}`);
       
       if (!response.ok) {
         throw new Error(`Erro na solicitação GET: ${response.status}`);
@@ -63,7 +63,7 @@ const Requisicao: React.FC = () => {
         minStock: data.minStock
       });
     } catch (error) {
-      console.error("Erro na solicitação GET:", error.message);
+      console.error("Erro na solicitação GET:", error);
     }
   };
 

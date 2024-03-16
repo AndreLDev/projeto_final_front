@@ -17,7 +17,7 @@ export default function BenchmarkingModal({ isOpen, onOpenChange, onClose, id })
   const fetchBenchmarkingData = async () => {
     try {
       setIsLoading(true); 
-      const response = await fetch(`https://localhost:8004/api/Util/Benckmarking/${id}`);
+      const response = await fetch(`http://localhost:8004/api/Util/Benckmarking/${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch benchmarking data");
       }
@@ -68,7 +68,7 @@ export default function BenchmarkingModal({ isOpen, onOpenChange, onClose, id })
                     {benchmarkingData.best === 1 && (
                       <p className="text-yellow-500 font-semibold">Melhor Preço: Mercado</p>
                     )}
-                    {benchmarkingData.best === 2 && (
+                    {benchmarkingData.best === 0 && (
                       <p className="text-blue-500 font-semibold">Melhor Preço: Magazine</p>
                     )}
                   </>
