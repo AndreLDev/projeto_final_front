@@ -9,8 +9,8 @@ import {useRouter} from 'next/navigation'
 export default function Login() {
   const router = useRouter();
 
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>('test@test.com');
+  const [password, setPassword] = useState<string>('password');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');

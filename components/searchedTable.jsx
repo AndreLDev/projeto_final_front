@@ -29,6 +29,7 @@ import { capitalize } from "../utils";
 import AddProductModal from "./addProductModal";
 import EditProductModal from "./editProductModal";
 import BenchmarkingModal from "./benchmarkingModal";
+import SendEmailModal from "./sendEmailModal";
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "desciption", "price", "stock", "minStock", "actions"];
 
@@ -42,6 +43,7 @@ export default function SearchedTable() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isBenchModalOpen, setIsBenchModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
@@ -65,7 +67,7 @@ export default function SearchedTable() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("https://localhost:8004/api/Produto");
+      const response = await fetch("http://localhost:8004/api/Produto");
       if (!response.ok) {
         throw new Error("Failed to fetch products");
       }
@@ -78,7 +80,7 @@ export default function SearchedTable() {
 
   const handleDeleteRequest = (id) => {
 
-    fetch(`https://localhost:8004/api/Produto/${id}`, {
+    fetch(`http://localhost:8004/api/Produto/${id}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -92,7 +94,7 @@ export default function SearchedTable() {
         console.error("Erro na solicitação DELETE:", error);
         fetchProducts();
       });
-      
+
   };
 
   const handleNewProductClick = () => {
@@ -107,6 +109,11 @@ export default function SearchedTable() {
   const handleBenchProduct = (id) => {
     setSelectedProduct(id);
     setIsBenchModalOpen(true);
+  };
+
+  const handleEmailProduct = (id) => {
+    setSelectedProduct(id);
+    setIsEmailModalOpen(true);
   };
 
   const headerColumns = React.useMemo(() => {
@@ -166,6 +173,11 @@ export default function SearchedTable() {
           </div>
         );
       case "stock":
+        return (
+          <div className="flex flex-col">
+            <p className="text-xs sm:text-base text-bold capitalize">{cellValue}</p>
+          </div>
+        );
       case "minStock":
         return (
           <div className="flex flex-col">
@@ -176,16 +188,16 @@ export default function SearchedTable() {
         return (
           <div className="relative flex justify-start items-center gap-2">
             <Button isIconOnly className="bg-cyan-600" aria-label="Like" onClick={() => handleBenchProduct(product["id"])}>
-              <HiOutlineLightBulb size={"2em"} className="text-white"/>
+              <HiOutlineLightBulb size={"2em"} className="text-white" />
             </Button>
-            <Button isIconOnly className="bg-amber-600" aria-label="Like">
-              <MdOutlineMailOutline size={"2em"} className="text-white"/>
+            <Button isIconOnly className="bg-amber-600" aria-label="Like" onClick={() => handleEmailProduct(product["id"])}>
+              <MdOutlineMailOutline size={"2em"} className="text-white" />
             </Button>
             <Button isIconOnly className="bg-yellow-700" aria-label="Like" onClick={() => handleEditProduct(product["id"])}>
-              <FaRegEdit size="1.6em" className="text-white "/>
+              <FaRegEdit size="1.6em" className="text-white " />
             </Button>
             <Button isIconOnly color="danger" aria-label="Like" onClick={() => handleDeleteRequest(product["id"])}>
-              <IoMdClose size={"2em"} className="text-white"/>
+              <IoMdClose size={"2em"} className="text-white" />
             </Button>
           </div>
         );
@@ -269,9 +281,9 @@ export default function SearchedTable() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {products.length} products</span>
+          <span className="text-default-400 text-small">Total {products.length} produtos</span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Itens por pagina:
             <select className="bg-transparent outline-none text-default-400 text-small" onChange={onRowsPerPageChange}>
               <option value="5">5</option>
               <option value="10">10</option>
@@ -334,7 +346,7 @@ export default function SearchedTable() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No users found"} items={sortedItems}>
+        <TableBody emptyContent={"Nenhum produto encontrado"} items={sortedItems}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => <TableCell className="text-start">{renderCell(item, columnKey)}</TableCell>}
@@ -343,19 +355,27 @@ export default function SearchedTable() {
         </TableBody>
       </Table>
       <AddProductModal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onClose} />
-      <EditProductModal 
-      isOpen={isEditModalOpen} 
-      onOpenChange={setIsEditModalOpen}
-      onClose={() => setIsEditModalOpen(false)}
-      id={selectedProduct}
+      <EditProductModal
+        isOpen={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        id={selectedProduct}
       />
 
 
-      <BenchmarkingModal 
-      isOpen={isBenchModalOpen} 
-      onOpenChange={setIsBenchModalOpen}
-      onClose={() => setIsBenchModalOpen(false)}
-      id={selectedProduct}
+      <BenchmarkingModal
+        isOpen={isBenchModalOpen}
+        onOpenChange={setIsBenchModalOpen}
+        onClose={() => setIsBenchModalOpen(false)}
+        id={selectedProduct}
+      />
+
+
+      <SendEmailModal
+        isOpen={isEmailModalOpen}
+        onOpenChange={setIsEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        id={selectedProduct}
       />
     </>
   );
