@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useState, useEffect } from "react";
-import NavBar from "@/components/navBar";
-import SearchedTable from "@/components/searchedTable";
+import NavBar from "../../components/navBar";
+import SearchedTable from "components/searchedTable";
 
 export default function Produto() {
 

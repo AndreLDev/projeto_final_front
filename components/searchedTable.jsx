@@ -29,6 +29,7 @@ import { capitalize } from "../utils";
 import AddProductModal from "./addProductModal";
 import EditProductModal from "./editProductModal";
 import BenchmarkingModal from "./benchmarkingModal";
+import SendEmailModal from "./sendEmailModal";
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "desciption", "price", "stock", "minStock", "actions"];
 
@@ -42,6 +43,7 @@ export default function SearchedTable() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isBenchModalOpen, setIsBenchModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "age",
     direction: "ascending",
@@ -107,6 +109,11 @@ export default function SearchedTable() {
   const handleBenchProduct = (id) => {
     setSelectedProduct(id);
     setIsBenchModalOpen(true);
+  };
+
+  const handleEmailProduct = (id) => {
+    setSelectedProduct(id);
+    setIsEmailModalOpen(true);
   };
 
   const headerColumns = React.useMemo(() => {
@@ -178,7 +185,7 @@ export default function SearchedTable() {
             <Button isIconOnly className="bg-cyan-600" aria-label="Like" onClick={() => handleBenchProduct(product["id"])}>
               <HiOutlineLightBulb size={"2em"} className="text-white"/>
             </Button>
-            <Button isIconOnly className="bg-amber-600" aria-label="Like">
+            <Button isIconOnly className="bg-amber-600" aria-label="Like" onClick={() => handleEmailProduct(product["id"])}>
               <MdOutlineMailOutline size={"2em"} className="text-white"/>
             </Button>
             <Button isIconOnly className="bg-yellow-700" aria-label="Like" onClick={() => handleEditProduct(product["id"])}>
@@ -355,6 +362,14 @@ export default function SearchedTable() {
       isOpen={isBenchModalOpen} 
       onOpenChange={setIsBenchModalOpen}
       onClose={() => setIsBenchModalOpen(false)}
+      id={selectedProduct}
+      />
+
+
+      <SendEmailModal 
+      isOpen={isEmailModalOpen} 
+      onOpenChange={setIsEmailModalOpen}
+      onClose={() => setIsEmailModalOpen(false)}
       id={selectedProduct}
       />
     </>

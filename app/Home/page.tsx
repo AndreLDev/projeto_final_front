@@ -1,4 +1,4 @@
-import NavBar from '@/components/navBar';
+import NavBar from '../../components/navBar';
 import { FiBriefcase, FiSettings, FiPhone } from 'react-icons/fi';
 
 export default function Home() {
