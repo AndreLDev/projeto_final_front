@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import NavBar from "@/components/navBar";
 import {
   Table,
@@ -16,7 +16,80 @@ import {
   TableBody,
 } from "@nextui-org/react";
 
+interface Product {
+  CodigoProduto: string;
+  DescricaoProduto: string;
+  Preco: string;
+  Quantidade: string;
+  Unidade: string;
+  Total: number;
+}
+
 const Requisicao: React.FC = () => {
+  const [formvalue, setFormvalue] = useState({
+    id: "",
+    quantidade: "",
+  });
+  const [produtoData, setProdutoData] = useState({
+    DescricaoProduto: "",
+    stock: "",
+    Preco:"",
+    minStock: ""
+  });
+  const [produtosTabela, setProdutosTabela] = useState<Product[]>([]);
+
+  const handleInput = async (e) => {
+    const { name, value } = e.target;
+    setFormvalue({ ...formvalue, [name]: value });
+
+    try {
+      if (!value.trim()) {
+        throw new Error("ID não pode ser vazio");
+      }
+
+      const encodedId = encodeURIComponent(value.trim());
+      const response = await fetch(`https://localhost:8004/api/Produto/${encodedId}`);
+      
+      if (!response.ok) {
+        throw new Error(`Erro na solicitação GET: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      setProdutoData({
+        DescricaoProduto: data.desciption,
+        stock: data.stock,
+        Preco: data.price,
+        minStock: data.minStock
+      });
+    } catch (error) {
+      console.error("Erro na solicitação GET:", error.message);
+    }
+  };
+
+  const adicionarProduto = () => {
+    const newProduct: Product = {
+      CodigoProduto: formvalue.id,
+      DescricaoProduto: produtoData.DescricaoProduto,
+      Preco: produtoData.Preco,
+      Quantidade: formvalue.quantidade,
+      Unidade: "unidade",
+      Total: parseFloat(produtoData.Preco) * parseFloat(formvalue.quantidade)
+    };
+    setProdutosTabela([
+      ...produtosTabela,
+      newProduct
+    ]);
+    setFormvalue({ ...formvalue, id: "", quantidade: "" });
+  };
+
+  const removerProduto = (index: number) => {
+    const updatedProducts = [...produtosTabela];
+    updatedProducts.splice(index, 1);
+    setProdutosTabela(updatedProducts);
+  };
+
+
   const categorias = [
     { value: "gerencia", label: "Gerencia" },
     { value: "cliente", label: "Cliente" },
@@ -160,7 +233,8 @@ const Requisicao: React.FC = () => {
                 <label className="block mb-1 w-full px-6 rounded">Código do Produto</label>
                 <Input
                   type="number"
-                  id="CodigoProduto"
+                  id="CodigoProduto"                  
+                  name='id' value={formvalue.id} onChange={handleInput}
                   className="w-full px-4 rounded"
                   placeholder="Digite aqui..."
                 />
@@ -170,15 +244,8 @@ const Requisicao: React.FC = () => {
                 <Input
                   type="text"
                   id="DescricaoProduto"
-                  className="w-full px-4 rounded"
-                  placeholder="Digite aqui..."
-                />
-              </div>
-              <div className="flex-1 mb-4 lg:mb-0">
-                <label className="block mb-1 w-full px-6 rounded">Estoque</label>
-                <Input
-                  type="number"
-                  id="Estoque"
+                  disabled
+                  value={produtoData.DescricaoProduto}
                   className="w-full px-4 rounded"
                   placeholder="Digite aqui..."
                 />
@@ -187,17 +254,31 @@ const Requisicao: React.FC = () => {
                 <label className="block mb-1 w-full px-6 rounded">Quantidade</label>
                 <Input
                   type="number"
-                  id="Quantidade"
+                  id="Preco"
+                  className="w-full px-4 rounded"
+                  placeholder="Digite aqui..."
+                  value={formvalue.quantidade}
+                  onChange={(e) => setFormvalue({ ...formvalue, quantidade: e.target.value })}
+                />
+              </div>
+              <div className="flex-1 mb-4 lg:mb-0">
+                <label className="block mb-1 w-full px-6 rounded">Estoque atual</label>
+                <Input
+                  type="number"
+                  id="stock"
+                  value={produtoData.stock}
+                  disabled
                   className="w-full px-4 rounded"
                   placeholder="Digite aqui..."
                 />
               </div>
+              <div className="flex-1 mb-4 lg:mb-0">
+                <br></br><Button type="button" color="primary" variant="solid" className="px-4" onClick={adicionarProduto}>
+                  Adicionar
+                </Button>
+              </div>
             </div><br></br>
-            <div className="mt-4">
-              <Button type="button" color="primary" variant="solid">
-                Adicionar
-              </Button>
-            </div>
+            
             <Table
               aria-label="Example static collection table"
               isStriped
@@ -213,15 +294,21 @@ const Requisicao: React.FC = () => {
                 <TableColumn>-</TableColumn>
               </TableHeader>
               <TableBody>
-                <TableRow key="1">
-                  <TableCell>10</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>-</TableCell>
-                </TableRow>
+                {produtosTabela.map((produto, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{produto.CodigoProduto}</TableCell>
+                    <TableCell>{produto.DescricaoProduto}</TableCell>
+                    <TableCell>{produto.Quantidade}</TableCell>
+                    <TableCell>{produto.Unidade}</TableCell>
+                    <TableCell>{produto.Preco}</TableCell>
+                    <TableCell>{produto.Total}</TableCell>
+                    <TableCell>
+                      <Button type="button" color="danger" variant="solid" onClick={() => removerProduto(index)}>
+                        Remover
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
