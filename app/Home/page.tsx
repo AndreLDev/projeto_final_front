@@ -16,17 +16,17 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <ServiceCard
               title="Gerenciamento de Produtos"
-              description="Permite o Cadastro de novos produtos, Um BenckMarking do melhor preço em outras Lojas, e envio de Email."
+              description="Permite o Cadastro de novos produtos, Um BenckMarking do melhor preço em outras Lojas e envio de Email."
               icon={<FiBriefcase className="text-3xl mb-4 text-gray-800" />}
             />
             <ServiceCard
-              title="Requisição de Saida de Produtos"
+              title="Requisição de Saída de Produtos"
               description="Permite a requisição de novos produtos para o estoque. Os produtos da requisição são de acordo com os produtos cadastrados no gerenciamento."
               icon={<FiSettings className="text-3xl mb-4 text-gray-800" />}
             />
             <ServiceCard 
-              title="Registro de comparações"
-              description="Oferece um registro dos logs realizados no serviço de BenchMark."
+              title="Registros de Logs"
+              description="Este serviço exibe logs registrados no benchmarking com detalhes como código do robô, nome do desenvolvedor, data de atualização, nome do produto, preços do Mercado Livre e da Magazine Luiza, e economia. Ele oferece funcionalidades de filtragem, ordenação e paginação para facilitar a navegação e visualização dos dados."
               icon={<FiSettings className="text-3xl mb-4 text-gray-800" />}
             />
           </div>

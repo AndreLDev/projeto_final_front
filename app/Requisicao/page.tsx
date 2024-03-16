@@ -170,10 +170,10 @@ const Requisicao: React.FC = () => {
 
             <div className="flex flex-col lg:flex-row lg:gap-4">
               <div className="flex-1 mb-4 lg:mb-0">
-                <label className="block mb-1 w-full px-6 rounded">Categorias Motivo</label>
+                <label className="block mb-1 w-full px-6 rounded">Categoria Motivo</label>
                 <Select
-                  label="Favorite Animal"
-                  placeholder="Select an animal"
+                  label="Categoria Motivo"
+                  placeholder="Selecione uma categoria"
                   className="max-w-xs w-full px-4 py-2 rounded text-black"
                 >
                   {categorias.map((categoria) => (
