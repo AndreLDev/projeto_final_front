@@ -22,7 +22,7 @@ import { SearchIcon } from "../public/SearchIcon";
 import { ChevronDownIcon } from "../public/ChevronDownIcon";
 import { capitalize } from "../utils";
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "codeRobot", "userRobot", "dateLog", "stage", "informationLog", "produto.id"];
+const INITIAL_VISIBLE_COLUMNS = ["codigorobo", "nomedev", "dataatualizacao", "nomeproduto", "valor1", "valor2", "economia"];
 
 export default function TableLog() {
     const [logs, setLogs] = useState([]);
@@ -38,18 +38,15 @@ export default function TableLog() {
 
     const columns = [
         { uid: "id", name: "ID", sortable: true },
-        { uid: "codeRobot", name: "Código do Robô", sortable: true },
-        { uid: "userRobot", name: "Usuário do Robô", sortable: true },
-        { uid: "dateLog", name: "Data do Log", sortable: true },
-        { uid: "stage", name: "Estágio", sortable: true },
-        { uid: "informationLog", name: "Informação do Log", sortable: true },
-        { uid: "produto.id", name: "ID do Produto", sortable: true },
-        { uid: "produto.desciption", name: "Descrição do Produto", sortable: true },
-        { uid: "produto.price", name: "Preço do Produto", sortable: true },
-        { uid: "produto.stock", name: "Estoque Atual do Produto", sortable: true },
-        { uid: "produto.minStock", name: "Estoque Mínimo do Produto", sortable: true },
-      ];
-      
+        { uid: "codigorobo", name: "Código do Robô", sortable: true },
+        { uid: "nomedev", name: "Nome do Desenvolvedor", sortable: true },
+        { uid: "dataatualizacao", name: "Data de Atualização", sortable: true },
+        { uid: "nomeproduto", name: "Nome do Produto", sortable: true },
+        { uid: "valor1", name: "Mercado Livre", sortable: true },
+        { uid: "valor2", name: "Magazine Luiza", sortable: true },
+        { uid: "economia", name: "Economia", sortable: true }
+    ];
+
 
     useEffect(() => {
         fetchLogs();
@@ -59,7 +56,7 @@ export default function TableLog() {
 
     const fetchLogs = async () => {
         try {
-            const response = await fetch("http://localhost:8004/api/Log");
+            const response = await fetch("https://gestaomargi-001-site8.gtempurl.com/api/Logs");
             if (!response.ok) {
                 throw new Error("Failed to fetch logs");
             }
@@ -80,17 +77,18 @@ export default function TableLog() {
 
     const filteredItems = React.useMemo(() => {
         let filteredLogs = [...logs];
-    
+
         if (hasSearchFilter) {
             filteredLogs = filteredLogs.filter((log) => {
                 const lowerCaseFilter = filterValue.toLowerCase();
                 return (
-                    log.stage.toLowerCase().includes(lowerCaseFilter) ||
-                    log.produto.id.toString().toLowerCase().includes(lowerCaseFilter)
+                    log.codigorobo.toString().toLowerCase().includes(lowerCaseFilter) ||
+                    log.nomeproduto.toLowerCase().includes(lowerCaseFilter) ||
+                    log.nomedev.toLowerCase().includes(lowerCaseFilter)
                 );
             });
         }
-    
+
         return filteredLogs;
     }, [logs, filterValue]);
 
@@ -114,31 +112,53 @@ export default function TableLog() {
     }, [sortDescriptor, items]);
 
     const renderCell = React.useCallback((data, columnKey) => {
-        let cellValue;
-        if (columnKey.startsWith("produto.")) {
-            const produtoKey = columnKey.split("produto.")[1];
-            cellValue = data.produto[produtoKey];
-        } else {
-            cellValue = data[columnKey];
-        }
-    
+        const cellValue = data[columnKey];
+
         switch (columnKey) {
             case "id":
-                return <h3 className="text-xs sm:text-base">{cellValue}</h3>;
-            case "codeRobot":
-            case "userRobot":
-            case "dateLog":
-            case "stage":
-            case "informationLog":
                 return (
                     <div className="flex flex-col">
                         <p className="text-xs sm:text-base text-bold capitalize">{cellValue}</p>
                     </div>
                 );
+            case "codigorobo":
+                return (
+                    <div className="flex flex-col">
+                        <p className="text-xs sm:text-base text-bold capitalize">{cellValue}</p>
+                    </div>
+                );
+            case "valor1":
+                const formattedPrice1 = Number(cellValue).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+                return (
+                    <div className="flex flex-col">
+                        <p className="text-xs sm:text-base text-bold capitalize">{formattedPrice1}</p>
+                    </div>
+                );
+            case "valor2":
+                const formattedPrice2 = Number(cellValue).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+                return (
+                    <div className="flex flex-col">
+                        <p className="text-xs sm:text-base text-bold capitalize">{formattedPrice2}</p>
+                    </div>
+                );
+            case "economia":
+                const formattedPrice3 = Number(cellValue).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+                return(
+                    <h3 className="text-xs sm:text-base">{formattedPrice3}</h3>
+                )
+            case "dataatualizacao":
+                const date = new Date(cellValue);
+                const formattedDate = date.toLocaleDateString('pt-BR');
+                return(
+                    <h3 className="text-xs sm:text-base">{formattedDate}</h3>
+                )
+            case "nomedev":
+            case "nomeproduto":
             default:
                 return cellValue;
         }
     }, []);
+
 
     const onNextPage = React.useCallback(() => {
         if (page < pages) {
