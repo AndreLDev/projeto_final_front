@@ -21,13 +21,13 @@ export default function Home() {
             />
             <ServiceCard
               title="Requisição de Saida de Produtos"
-              description="Descrição detalhada do Serviço 2. Destaque os recursos exclusivos e como podem ajudar os clientes."
+              description="Permite a requisição de novos produtos para o estoque. Os produtos da requisição são de acordo com os produtos cadastrados no gerenciamento."
               icon={<FiSettings className="text-3xl mb-4 text-gray-800" />}
             />
             <ServiceCard 
-              title="Serviço 3"
-              description="Descrição detalhada do Serviço 3. Forneça informações claras e atraentes sobre o que oferece."
-              icon={<FiPhone className="text-3xl mb-4 text-gray-800" />}
+              title="Registro de comparações"
+              description="Oferece um registro dos logs realizados no serviço de BenchMark."
+              icon={<FiSettings className="text-3xl mb-4 text-gray-800" />}
             />
           </div>
         </section>
