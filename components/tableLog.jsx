@@ -198,7 +198,7 @@ export default function TableLog() {
                     <Input
                         isClearable
                         className="w-full sm:max-w-[44%] text-xs sm:text-base"
-                        placeholder="Pesquise por Estagio ou por Produto Id..."
+                        placeholder="Pesquise pelo código ou produto"
                         startContent={<SearchIcon />}
                         value={filterValue}
                         onClear={() => onClear()}
@@ -210,7 +210,7 @@ export default function TableLog() {
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="bordered">
-                                    Columns
+                                    Colunas
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu
@@ -234,7 +234,7 @@ export default function TableLog() {
                 <div className="flex justify-between items-center">
                     <span className="text-default-400 text-small">Total {logs.length} logs</span>
                     <label className="flex items-center text-default-400 text-small">
-                        Itens por pagina:
+                        Itens por página:
                         <select className="bg-transparent outline-none text-default-400 text-small" onChange={onRowsPerPageChange}>
                             <option value="5">5</option>
                             <option value="10">10</option>
@@ -260,10 +260,10 @@ export default function TableLog() {
                 />
                 <div className="flex sm:flex w-[30%] justify-end gap-2">
                     <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
-                        Previous
+                        Anterior
                     </Button>
                     <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
-                        Next
+                        Próximo
                     </Button>
                 </div>
             </div>
