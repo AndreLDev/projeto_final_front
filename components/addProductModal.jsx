@@ -31,7 +31,7 @@ export default function AddProductModal({ isOpen, onOpenChange, onClose }) {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8004/api/Produto", {
+      const response = await fetch("http://3.145.53.73:8004/api/Produto", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

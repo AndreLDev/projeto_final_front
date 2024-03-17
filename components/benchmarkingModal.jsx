@@ -21,7 +21,7 @@ export default function BenchmarkingModal({ isOpen, onOpenChange, onClose, id })
   const fetchBenchmarkingData = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:8004/api/Util/Benckmarking/${id}`);
+      const response = await fetch(`http://3.145.53.73:8004/api/Util/Benckmarking/${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch benchmarking data");
       }
