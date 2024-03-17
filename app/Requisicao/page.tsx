@@ -48,7 +48,7 @@ const Requisicao: React.FC = () => {
       }
 
       const encodedId = encodeURIComponent(value.trim());
-      const response = await fetch(`http://localhost:8004/api/Produto/${encodedId}`);
+      const response = await fetch(`http://3.145.53.73:8004/api/Produto/${encodedId}`);
       
       if (!response.ok) {
         throw new Error(`Erro na solicitação GET: ${response.status}`);

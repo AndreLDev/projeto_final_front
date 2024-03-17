@@ -67,7 +67,7 @@ export default function SearchedTable() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8004/api/Produto");
+      const response = await fetch("http://3.145.53.73:8004/api/Produto");
       if (!response.ok) {
         throw new Error("Failed to fetch products");
       }
@@ -80,7 +80,7 @@ export default function SearchedTable() {
 
   const handleDeleteRequest = (id) => {
 
-    fetch(`http://localhost:8004/api/Produto/${id}`, {
+    fetch(`http://3.145.53.73:8004/api/Produto/${id}`, {
       method: "DELETE",
     })
       .then((response) => {

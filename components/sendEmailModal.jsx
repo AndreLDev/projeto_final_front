@@ -25,7 +25,7 @@ export default function SendEmailModal({ isOpen, onOpenChange, onClose, id }) {
         setIsLoading(true);
 
         try {
-            const response = await fetch("http://localhost:8004/api/Util/SendEmail", {
+            const response = await fetch("http://3.145.53.73:8004/api/Util/SendEmail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
